@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8072894887729617174
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8072894887729617176}
+  - component: {fileID: 8072894887729617175}
+  m_Layer: 0
+  m_Name: BinaryTree
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8072894887729617176
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8072894887729617174}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8072894887729617175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8072894887729617174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d0fe1c533934f447891e66ba566c5cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  values: 0400000017000000010000000700000005000000
+  rootNode:
+    value: 5
+  doVisit: 0
+  doSearch: 0
+  randomGenerateTree: 0
+  nodesRandomGenerated: 10000
+  search: 50
+  description: "A Binary Tree is used to traverse the shortest iteration loop possible
+    through a range of sortable values\r\nIn computer science, a binary tree is a
+    tree data structure in which each node has at most two children,\r\nwhich are
+    referred to as the left child and the right child. A recursive definition using
+    just set theory\r\nnotions is that a (non-empty) binary tree is a tuple (L, S,
+    R), where L and R are binary trees or the empty\r\nset and S is a singleton set.[1]
+    Some authors allow the binary tree to be the empty set as well.[2]\"\n"
