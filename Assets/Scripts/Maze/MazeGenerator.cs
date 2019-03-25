@@ -27,6 +27,8 @@ namespace AI
         public List<Cell> grid = new List<Cell>();
 
         Cell currentCell;
+
+        List<Cell> stack = new List<Cell>();
         // Start is called before the first frame update
         void Start()
         {
@@ -49,9 +51,25 @@ namespace AI
         void MoveAround()
         {
             List<Cell> neighbors = currentCell.GetNeighbors();
-            if (neighbors.Count == 0)
+            Cell movingTo;
+            if (neighbors.Count > 0)
+            {
+                movingTo = neighbors[Random.Range(0, neighbors.Count)];
+                stack.Add(movingTo);
+            }
+            else if(stack.Count > 0)
+            {
+                int lastIndex = stack.Count - 1;
+                movingTo = stack[lastIndex];
+                stack.RemoveAt(lastIndex);
+            }
+            else
+            {
+                Debug.Log("Finished");
+                StopAllCoroutines();
                 return;
-            Cell movingTo = neighbors[Random.Range(0, neighbors.Count)];
+            }
+            
             movingTo.visited = true;
 
             Debug.Log("Moving from " + currentCell.x + "," + currentCell.y + " to " + movingTo.x + "," + movingTo.y);
