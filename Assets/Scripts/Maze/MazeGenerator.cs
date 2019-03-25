@@ -41,7 +41,7 @@ namespace AI
         {
             MoveAround();
 
-            yield return new WaitForSeconds(1 / frameRate);
+            yield return new WaitForSeconds(1f / frameRate);
             StartCoroutine(Tick());
             yield return null;
         }
@@ -57,7 +57,11 @@ namespace AI
             Debug.Log("Moving from " + currentCell.x + "," + currentCell.y + " to " + movingTo.x + "," + movingTo.y);
 
             DrawBackground(currentCell, CellStatus.Visited);
+
+            currentCell.RemoveWallBetween(movingTo);
+
             var neighborsNew = movingTo.GetNeighbors();
+
             foreach (var neighbor in neighborsNew)
                 DrawBackground(neighbor, CellStatus.Possible);
 
@@ -129,10 +133,13 @@ namespace AI
     {
         public int x, y;
         public bool[] walls = {true, true, true, true}; //top, right, bottom, left
+       
         float cellSize;
         public bool visited;
         MazeGenerator maze;
         GameObject currentSprite;
+        List<Line> wallsRendered = new List<Line>();
+        const int TOP = 0, RIGHT = 1, BOTTOM = 2, LEFT = 3;
 
         public Cell(int x, int y, MazeGenerator maze)
         {
@@ -140,8 +147,31 @@ namespace AI
             this.x = x;
             this.y = y;
             this.maze = maze;
+            //RandomWalls();
             Draw();
             maze.DrawBackground(this);
+
+            
+        }
+        public void Redraw()
+        {
+            ClearAllLines();
+            Draw();
+        }
+        public void ClearAllLines()
+        {
+            foreach(Line line in wallsRendered)
+            {
+                if(line && line.gameObject)
+                    GameObject.Destroy(line.gameObject);
+            }
+        }
+        void RandomWalls()
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                walls[i] = Random.Range(1, 10) % 2 == 0;
+            }
         }
         
         public void SwapSprite(GameObject newSprite)
@@ -158,6 +188,39 @@ namespace AI
             if (maze == null)
                 return -1;
             return maze.GetCellIndex(j, i);
+        }
+
+        public void RemoveWallBetween(Cell neighborCell)
+        {
+            Cell a = this;
+            Cell b = neighborCell;
+
+            int i = a.x - b.x;
+            int j = a.y - b.y;
+            if(i == -1)
+            {
+                a.walls[LEFT] = false;
+                b.walls[RIGHT] = false;
+            }
+            else if(i == 1)
+            {
+                a.walls[RIGHT] = false;
+                b.walls[LEFT] = false;
+            }
+
+            else if (j == -1)
+            {
+                a.walls[TOP] = false;
+                b.walls[BOTTOM] = false;
+            }
+            else if (j == 1)
+            {
+                a.walls[BOTTOM] = false;
+                b.walls[TOP] = false;
+            }
+            Debug.Log("i: " + i +" j: " + j);
+            a.Redraw();
+            b.Redraw();
         }
 
         public List<Cell> GetNeighbors()
@@ -203,6 +266,7 @@ namespace AI
                 newLine.a = new Vector2((x * cellSize), (y * cellSize) + cellSize);
                 newLine.b = new Vector2((x * cellSize) + cellSize, (y * cellSize) + cellSize);
                 newLine.Draw();
+                wallsRendered.Add(newLine);
             }
             if (walls[1])
             {
@@ -210,6 +274,8 @@ namespace AI
                 newLine.a = new Vector2(x * cellSize, y * cellSize);
                 newLine.b = new Vector2(x * cellSize, (y * cellSize) + cellSize);
                 newLine.Draw();
+                wallsRendered.Add(newLine);
+
             }
             if (walls[2])
             {
@@ -217,6 +283,8 @@ namespace AI
                 newLine.a = new Vector2(x * cellSize, y * cellSize);
                 newLine.b = new Vector2(x * cellSize + cellSize, (y * cellSize));
                 newLine.Draw();
+                wallsRendered.Add(newLine);
+
             }
             if (walls[3])
             {
@@ -224,6 +292,7 @@ namespace AI
                 newLine.a = new Vector2((x * cellSize) + cellSize, (y * cellSize));
                 newLine.b = new Vector2((x * cellSize) + cellSize, (y * cellSize) + cellSize);
                 newLine.Draw();
+                wallsRendered.Add(newLine);
             }
         }
 
