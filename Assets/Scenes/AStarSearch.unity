@@ -381,5 +381,26 @@ MonoBehaviour:
   cellPossible: {fileID: 2826248520706065718, guid: afafa46628fdcc44f8e34890a65f7070,
     type: 3}
   spriteScale: {x: 5, y: 5}
-  spritePositionFactor: 1
+  spritePositionFactor: 1.4
   spriteGridOffset: {x: 2.25, y: 3.9}
+  blockers:
+  - {x: 11, y: 10}
+  - {x: 12, y: 10}
+  - {x: 13, y: 10}
+  - {x: 14, y: 10}
+  - {x: 15, y: 10}
+  - {x: 16, y: 10}
+  - {x: 17, y: 10}
+  - {x: 18, y: 10}
+  - {x: 10, y: 10}
+  - {x: 9, y: 10}
+  - {x: 8, y: 9}
+  - {x: 8, y: 8}
+  - {x: 8, y: 7}
+  - {x: 10, y: 15}
+  - {x: 10, y: 16}
+  - {x: 10, y: 17}
+  - {x: 17, y: 8}
+  - {x: 17, y: 9}
+  - {x: 10, y: 20}
+  - {x: 11, y: 20}
