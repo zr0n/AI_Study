@@ -37,7 +37,6 @@ namespace AI {
             else
                 AICalculateInput();
 
-            Debug.Log(inputAxis);
             UpdateRotation();
         }
 
@@ -111,6 +110,7 @@ namespace AI {
         void NormalizeHealth()
         {
             ClampHealth();
+            CheckDeath();
         }
         void CheckDeath()
         {
@@ -119,7 +119,8 @@ namespace AI {
         }
         void Die()
         {
-            GameObject.Destroy(this);
+            Debug.Log(name = " died. R.I.P.");
+            GameObject.Destroy(this.gameObject);
         }
         void ClampHealth()
         {
@@ -174,13 +175,6 @@ namespace AI {
             Quaternion current = transform.rotation;
 
             transform.rotation = DoSlerp(current, desired, steering);
-            return;
-
-            Food nearest = GetNearestFood();
-            if (nearest)
-                transform.LookAt(nearest.transform);
-            else
-                transform.rotation = Quaternion.LookRotation(inputAxis);
         }
     }
 
