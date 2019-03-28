@@ -121,7 +121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd6df5fe267be7842bb7955cdedf8c61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acceleration: 10
+  acceleration: 5
   inputAxis: {x: 0, y: 0, z: 0}
   controlledByKeyboard: 0
   maxSpeed: 10
@@ -129,3 +129,8 @@ MonoBehaviour:
   health: 100
   name: Destrilt
   steering: 0.08
+  dna:
+  - 0
+  - 0
+  steeringFood: 0
+  steeringPoison: 0

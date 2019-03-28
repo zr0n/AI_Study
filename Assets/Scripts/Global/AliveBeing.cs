@@ -16,8 +16,14 @@ namespace AI {
         public float steering = .7f;
 
         public static int instancesCount;
+        
+        public float[] dna = { 0f, 0f };
 
         Rigidbody rb;
+
+        [SerializeField] float steeringFood;
+        [SerializeField] float steeringPoison;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -27,6 +33,7 @@ namespace AI {
 
             instancesCount++;
             name += "-" + instancesCount;
+            RandomizeDNA();
         }
 
         // Update is called once per frame
@@ -38,6 +45,8 @@ namespace AI {
                 AICalculateInput();
 
             UpdateRotation();
+
+            Debug.DrawRay(transform.position, transform.forward);
         }
 
         void FixedUpdate()
@@ -49,16 +58,35 @@ namespace AI {
             rb.AddTorque(inputAxis * steering);
             */
             steering = Mathf.Min(steering, 1f);
-
-            Vector3 force = (inputAxis.normalized * steering + transform.forward * (1f - steering));
-            force = transform.forward;
-            force *= acceleration;
-            if (rb.velocity.y == 0f)
-                rb.AddForce(acceleration * force);
-
             LimitMaxSpeed();
-        }
 
+            
+            Vector3 force = inputAxis * acceleration;
+
+            rb.AddForce(acceleration * force);
+
+        }
+        void RandomizeDNA()
+        {
+            this.dna[0] = Random.Range(-1f, 1f);
+            this.dna[1] = Random.Range(-1f, 1f);
+        }
+        Vector3 CalcSteeringFood()
+        {
+            Food nearest = GetNearestFood();
+            if (nearest == null)
+                return Vector3.zero;
+
+            return (nearest.transform.position - transform.position).normalized;
+        }
+        Vector3 CalcSteeringPoison()
+        {
+            Poison nearest = GetNearestPoison();
+            if (nearest == null)
+                return Vector3.zero;
+
+            return (nearest.transform.position - transform.position).normalized;
+        }
         void LimitMaxSpeed()
         {
             if (rb.velocity.magnitude > maxSpeed)
@@ -81,14 +109,13 @@ namespace AI {
 
         void AICalculateInput()
         {
-            Food nearest = GetNearestFood();
-            if (nearest == null)
-                return;
+            Vector3 nearestFoodInput = CalcSteeringFood();
+            Vector3 nearestPoisonInput = CalcSteeringPoison();
 
-            Vector3 inputAxisTmp = (nearest.transform.position - transform.position).normalized;
+            Vector3 weightedDirection = (this.dna[0] * nearestFoodInput) + (this.dna[1] * nearestPoisonInput);
+            weightedDirection = weightedDirection.normalized;
 
-            inputAxis.x = inputAxisTmp.x;
-            inputAxis.z = inputAxisTmp.z;
+            inputAxis = weightedDirection;
         }
 
         void CheckKillZ()
@@ -140,11 +167,11 @@ namespace AI {
         {
             List<Food> allFoods = Food.GetAllFoods();
             Food nearest = null;
-            float nearestDistance = 0f;
+            float nearestDistance = float.PositiveInfinity;
             foreach (Food food in allFoods)
             {
                 float dist = DistanceBetween(transform.position, food.transform.position);
-                if (nearest == null || dist < nearestDistance)
+                if (dist < nearestDistance)
                 {
                     nearestDistance = dist;
                     nearest = food;
@@ -152,7 +179,22 @@ namespace AI {
             }
             return nearest;
         }
-
+        Poison GetNearestPoison()
+        {
+            List<Poison> allPoisons = Poison.GetAllPoisons();
+            Poison nearest = null;
+            float nearestDistance = float.PositiveInfinity;
+            foreach (Poison poison in allPoisons)
+            {
+                float dist = DistanceBetween(transform.position, poison.transform.position);
+                if(dist < nearestDistance)
+                {
+                    nearestDistance = dist;
+                    nearest = poison;
+                }
+            }
+            return nearest;
+        }
         public static float DistanceBetween(Vector3 a, Vector3 b)
         {
             return (a - b).magnitude;
