@@ -399,26 +399,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1449661445745184820, guid: 7da04111679334a49a0ea42c21aa475d,
-        type: 3}
-      propertyPath: minRadius
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1449661445745184820, guid: 7da04111679334a49a0ea42c21aa475d,
-        type: 3}
-      propertyPath: maxRadius
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 1449661445745184820, guid: 7da04111679334a49a0ea42c21aa475d,
-        type: 3}
-      propertyPath: minRadiusFood
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1449661445745184820, guid: 7da04111679334a49a0ea42c21aa475d,
-        type: 3}
-      propertyPath: minRadiusPoison
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7da04111679334a49a0ea42c21aa475d, type: 3}
 --- !u!1001 &717295660

@@ -6,11 +6,11 @@ namespace AI {
 
     public class AliveBeing : MonoBehaviour
     {
+        public int maxEntities = 50;
         public float acceleration;
         public Vector3 inputAxis;
         public bool controlledByKeyboard = true;
         public float maxSpeed = 10f;
-        public float killZ = -10f;
         public float health = 100;
         public string name = "Destrilt";
         public float steering = .7f;
@@ -18,7 +18,10 @@ namespace AI {
         public float minRadiusFood = 1f;
         public float maxRadiusFood = 10f;
         public float minRadiusPoison = 1f;
-        public float maxRadiusPoison= 10f;
+        public float maxRadiusPoison = 10f;
+
+        public float visionEntropy = .1f;
+        public float intelligenceEntropy = .1f;
 
         public Vector3 worldBounds = new Vector3(15f, 15f, 15f);
 
@@ -29,24 +32,44 @@ namespace AI {
         public float debugLineSize = 3f;
 
         public float[] dna = { 0f, 0f, 0f, 0f };
+        public float fertilityRate = .01f;
+        public GameObject FoodTemplate;
+
+        bool randomizeDNA = true;
+
+        public AliveBeing parent = null;
+
 
         Rigidbody rb;
 
         [SerializeField] float steeringFood;
         [SerializeField] float steeringPoison;
 
-        bool flipFlop;
+        public static int aliveCount;
+        bool flipFlop; 
+
+        public static string randomName
+        {
+            get
+            {
+                return names[Random.Range(0, names.Count - 1)];
+            }
+        }
 
         // Start is called before the first frame update
-        void Start()
+        void Awake()
         {
             if (!rb)
                 rb = GetComponent<Rigidbody>();
 
 
             instancesCount++;
-            name += "-" + instancesCount;
-            RandomizeDNA();
+            name = randomName + "-" + instancesCount;
+            if(randomizeDNA)
+                RandomizeDNA();
+
+            aliveCount++;
+            gameObject.name = name;
         }
 
         // Update is called once per frame
@@ -60,9 +83,14 @@ namespace AI {
             UpdateRotation();
 
             DrawLines();
-            
+
 
             TakeDamage(healthDecrementBySeconds * Time.deltaTime);
+
+            if (Random.value <= fertilityRate && aliveCount < maxEntities)
+                Clone();
+
+            ConnectToParent();
 
         }
         void OnDrawGizmos()
@@ -81,6 +109,37 @@ namespace AI {
 
 
             flipFlop = !flipFlop;
+        }
+        void ConnectToParent()
+        {
+            if (!parent)
+                return;
+
+            Vector3 lineEnd = parent.transform.position;
+
+            Debug.DrawLine(transform.position, lineEnd, Color.cyan);
+
+
+        }
+        public void Mutate(float[] dna, float fertilityRate)
+        {
+            dna[0] += Random.Range(Mathf.Abs(intelligenceEntropy) * -1, Mathf.Abs(intelligenceEntropy));
+            dna[1] += Random.Range(Mathf.Abs(intelligenceEntropy) * -1, Mathf.Abs(intelligenceEntropy));
+            dna[2] += Random.Range(Mathf.Abs(visionEntropy) * -1, Mathf.Abs(visionEntropy));
+            dna[3] += Random.Range(Mathf.Abs(visionEntropy) * -1, Mathf.Abs(visionEntropy));
+
+            fertilityRate += Random.Range(Mathf.Abs(fertilityRate) * -1, Mathf.Abs(fertilityRate));
+            this.fertilityRate = fertilityRate;
+
+            this.dna = dna;
+        }
+
+        public void Clone()
+        {
+            AliveBeing baby = GameObject.Instantiate<AliveBeing>(this, transform.position, transform.rotation);
+            baby.Mutate(dna, fertilityRate);
+            baby.parent = this;
+            baby.randomizeDNA = false;
         }
         void DrawLines()
         {
@@ -196,11 +255,6 @@ namespace AI {
             return DistanceBetween(collectable.transform.position, transform.position) <= visionRadius;
         }
 
-        void CheckKillZ()
-        {
-            if (transform.position.z < killZ)
-                TakeDamage(health);
-        }
 
         public void TakeDamage(float amount)
         {
@@ -224,7 +278,13 @@ namespace AI {
         }
         void Die()
         {
-            Debug.Log(name = " died. R.I.P.");
+            Debug.Log(name + " died. R.I.P.");
+
+            if (FoodTemplate != null)
+                GameObject.Instantiate(FoodTemplate);
+
+            aliveCount--;
+
             GameObject.Destroy(this.gameObject);
         }
         void ClampHealth()
@@ -296,6 +356,10 @@ namespace AI {
 
             transform.rotation = DoSlerp(current, desired, steering);
         }
-    }
+        static List<string> names = new List<string>(new string[]{ "Michael", "Logan", "Carter", "Avery", "Jayden", "Madison", "Ryan", "Riley", "Julian", "Hunter", "Cameron", "Jordan", "Addison", "Adrian", "Parker", "Evan", "Carson", "Tyler", "Taylor", "Micah", "Maxwell", "Reagan", "Ashton", "Kai", "Ashley", "Alex", "Bailey", "Jade", "Morgan", "Jude" });
+
+    };
+
+    
 
 }

@@ -121,25 +121,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd6df5fe267be7842bb7955cdedf8c61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxEntities: 100
   acceleration: 5
   inputAxis: {x: 0, y: 0, z: 0}
   controlledByKeyboard: 0
   maxSpeed: 10
-  killZ: -10
   health: 100
   name: Destrilt
-  steering: 0.08
+  steering: 0
   minRadiusFood: 3
   maxRadiusFood: 30
   minRadiusPoison: 3
-  maxRadiusPoison: 31
-  worldBounds: {x: 40, y: 40, z: 40}
-  healthDecrementBySeconds: 3
+  maxRadiusPoison: 30
+  visionEntropy: 1
+  intelligenceEntropy: 0.1
+  worldBounds: {x: 50, y: 50, z: 50}
+  healthDecrementBySeconds: 0.7
   debugLineSize: 7
   dna:
   - 0
   - 0
   - 0
   - 0
+  fertilityRate: 0.001
+  FoodTemplate: {fileID: 3634454814332004866, guid: 08215a7dbc31c1540829c668e9afc819,
+    type: 3}
+  parent: {fileID: 0}
   steeringFood: 0
   steeringPoison: 0
