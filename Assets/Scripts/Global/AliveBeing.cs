@@ -15,14 +15,27 @@ namespace AI {
         public string name = "Destrilt";
         public float steering = .7f;
 
+        public float minRadiusFood = 1f;
+        public float maxRadiusFood = 10f;
+        public float minRadiusPoison = 1f;
+        public float maxRadiusPoison= 10f;
+
+        public Vector3 worldBounds = new Vector3(15f, 15f, 15f);
+
+        public float healthDecrementBySeconds = 3f;
+
         public static int instancesCount;
-        
-        public float[] dna = { 0f, 0f };
+
+        public float debugLineSize = 3f;
+
+        public float[] dna = { 0f, 0f, 0f, 0f };
 
         Rigidbody rb;
 
         [SerializeField] float steeringFood;
         [SerializeField] float steeringPoison;
+
+        bool flipFlop;
 
         // Start is called before the first frame update
         void Start()
@@ -46,9 +59,39 @@ namespace AI {
 
             UpdateRotation();
 
-            Debug.DrawRay(transform.position, transform.forward);
-        }
+            DrawLines();
+            
 
+            TakeDamage(healthDecrementBySeconds * Time.deltaTime);
+
+        }
+        void OnDrawGizmos()
+        {
+            if (flipFlop)
+            {
+                Gizmos.color = Color.green;
+                Gizmos.DrawWireSphere(transform.position, this.dna[2]);
+
+            }
+            else
+            {
+                Gizmos.color = Color.red;
+                Gizmos.DrawWireSphere(transform.position, this.dna[3]);
+            }
+
+
+            flipFlop = !flipFlop;
+        }
+        void DrawLines()
+        {
+            Vector3 lineEndFood = (debugLineSize * CalcSteeringFood()) + transform.position;
+            Vector3 lineEndPoison = (debugLineSize * CalcSteeringPoison()) + transform.position;
+            lineEndFood = Vector3.Lerp(transform.position, lineEndFood, Mathf.Abs(this.dna[0]));
+            lineEndPoison = Vector3.Lerp(transform.position, lineEndPoison, Mathf.Abs(this.dna[1]));
+
+            Debug.DrawLine(transform.position, lineEndFood, Color.green);
+            Debug.DrawLine(transform.position, lineEndPoison, Color.red);
+        }
         void FixedUpdate()
         {
 
@@ -70,6 +113,8 @@ namespace AI {
         {
             this.dna[0] = Random.Range(-1f, 1f);
             this.dna[1] = Random.Range(-1f, 1f);
+            this.dna[2] = Random.Range(minRadiusFood, maxRadiusFood);
+            this.dna[3] = Random.Range(minRadiusPoison, maxRadiusPoison);
         }
         Vector3 CalcSteeringFood()
         {
@@ -109,13 +154,46 @@ namespace AI {
 
         void AICalculateInput()
         {
-            Vector3 nearestFoodInput = CalcSteeringFood();
-            Vector3 nearestPoisonInput = CalcSteeringPoison();
+            if (IsOutOfBounds())
+            {
+                BackToCenter();
+                return;
+            }
+            Vector3 nearestFoodInput = InSight(GetNearestFood(), this.dna[2]) ? CalcSteeringFood() : Vector3.zero;
+            Vector3 nearestPoisonInput = InSight(GetNearestPoison(), this.dna[3]) ? CalcSteeringPoison() : Vector3.zero;
 
             Vector3 weightedDirection = (this.dna[0] * nearestFoodInput) + (this.dna[1] * nearestPoisonInput);
             weightedDirection = weightedDirection.normalized;
 
+            if (weightedDirection == Vector3.zero)
+                weightedDirection = transform.forward;
+
             inputAxis = weightedDirection;
+        }
+        bool IsOutOfBounds()
+        {
+            return !IsInBounds();
+        }
+        bool IsInBounds()
+        {
+            Vector3 p = transform.position;
+            Vector3 b = worldBounds;
+            return (
+               Mathf.Abs(p.x) < worldBounds.x &&
+               Mathf.Abs(p.y) < worldBounds.y &&
+               Mathf.Abs(p.z) < worldBounds.z
+            );
+        }
+        void BackToCenter()
+        {
+            inputAxis = transform.position.normalized * - 1; //back to Vector3.zero
+        }
+        bool InSight(Collectable collectable, float visionRadius)
+        {
+            if (!collectable)
+                return false;
+
+            return DistanceBetween(collectable.transform.position, transform.position) <= visionRadius;
         }
 
         void CheckKillZ()

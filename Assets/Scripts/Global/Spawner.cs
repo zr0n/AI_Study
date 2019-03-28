@@ -18,11 +18,12 @@ namespace AI
 
 
         static int instancesCount = 0;
-
+        int id = 0;
         // Start is called before the first frame update
         void Start()
         {
             instancesCount++;
+            id = instancesCount;
             StartCoroutine(SpawnLoop());
         }
 
@@ -52,7 +53,7 @@ namespace AI
         }
         string FullName()
         {
-            return name + "-" + instancesCount;
+            return name + "-" + id;
         }
         Vector3 RandomPosition()
         {

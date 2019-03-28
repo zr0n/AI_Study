@@ -129,7 +129,16 @@ MonoBehaviour:
   health: 100
   name: Destrilt
   steering: 0.08
+  minRadiusFood: 3
+  maxRadiusFood: 30
+  minRadiusPoison: 3
+  maxRadiusPoison: 31
+  worldBounds: {x: 40, y: 40, z: 40}
+  healthDecrementBySeconds: 3
+  debugLineSize: 7
   dna:
+  - 0
+  - 0
   - 0
   - 0
   steeringFood: 0
