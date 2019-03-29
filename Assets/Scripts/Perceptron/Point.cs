@@ -31,7 +31,6 @@ namespace AI
 
             point.x = x;
             point.y = y;
-            point.correctLabel = x  < y ? 1 : -1;
             point.AddToScreen();
 
             return point;

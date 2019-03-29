@@ -43,11 +43,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34602ff4a0f0da4408f6b695d88abaca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomizeInputs: 1
   perceptronsNum: 100
-  inputs:
-  - 0
-  - 0
   pointTemplate: {fileID: 2826248520706065718, guid: 74cee341fb6966e4aa9187ff26371434,
     type: 3}
   line: {fileID: 0}
+  lineCorrect: {fileID: 0}
+  autoTick: 0
+  applicationFrameRate: 60
+  a: 1
+  b: 1
+  points: []
+  perceptrons: []

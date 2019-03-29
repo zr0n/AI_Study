@@ -8,16 +8,14 @@ namespace AI
     [System.Serializable]
     public class Perceptron 
     {
-        public float[] inputs = { 0f, 0f };
 
-        public float[] weights = { 0f, 0f};
+        public float[] weights = { 0f, 0f, 0f};
 
-        public float learningRate = .001f;
+        public float learningRate = .01f;
 
 
-        public Perceptron(float[] inputs, bool randomizeWeights = true)
+        public Perceptron(bool randomizeWeights = true)
         {
-            this.inputs = inputs;
             if (randomizeWeights)
                 RandomizeWeights();
         }
@@ -27,7 +25,7 @@ namespace AI
                 weights[i] = Random.Range(-1f, 1f);       
         }
 
-        public int Guess()
+        public int Guess(float[] inputs)
         {
             float sum = 0;
 
@@ -38,17 +36,23 @@ namespace AI
 
             return sum > 0f ? 1 : (sum == 0f ? 0 : -1);
         }
-        public void Train(int correctResult)
+        public void Train(float[] inputs, int correctResult)
         {
-            int guess = Guess();
-            Learn(guess, correctResult);
+            int guess = Guess(inputs);
+            Learn(inputs, guess, correctResult);
         }
 
-        void Learn(int guess, int correct)
+        void Learn(float[] inputs, int guess, int correct)
         {
             int error = (correct - guess) ;
             for ( int i  = 0;i< weights.Length; i++)
+            {
                 weights[i] += inputs[i] * error * learningRate;
+            }
+        }
+        public float GetY(float x )
+        {
+            return (weights[2] / weights[1]) - (weights[0] / weights[1]) * x;
         }
     }
 
