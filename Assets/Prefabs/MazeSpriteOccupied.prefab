@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4778126138034260077}
   - component: {fileID: 3964679625290571007}
+  - component: {fileID: 3664832260042367529}
   m_Layer: 0
   m_Name: MazeSpriteOccupied
   m_TagString: Untagged
@@ -79,3 +80,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3664832260042367529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2826248520706065718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78099912d84fc0a469f78ae623f8fe4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  x: 0
+  y: 0
+  spritePositive: {fileID: 0}
+  spriteNegative: {fileID: 0}
+  spriteUndefined: {fileID: 0}
+  spriteRenderer: {fileID: 3964679625290571007}
+  label: 1
+  correctLabel: 1
