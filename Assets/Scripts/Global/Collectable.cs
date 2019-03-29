@@ -21,7 +21,7 @@ namespace AI
         protected static List<Collectable> _allCollectableCache = new List<Collectable>();
 
         private static bool startedCacheLoop = false;
-        private static GameObject loopOwner = null;
+        protected static GameObject loopOwner = null;
 
         void Start()
         {
@@ -38,10 +38,10 @@ namespace AI
             StartCoroutine(CacheCollectables());
             isLoopOwner = true;
         }
-        public void Consume()
+        public virtual void Consume()
         {
             if (loopOwner != gameObject)
-                GameObject.Destroy(gameObject);
+                ObjectPool.AddToPool<Collectable>(this);
         }
         IEnumerator CacheCollectables()
         {

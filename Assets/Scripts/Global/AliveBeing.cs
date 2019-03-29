@@ -44,6 +44,7 @@ namespace AI {
 
         [SerializeField] float steeringFood;
         [SerializeField] float steeringPoison;
+        [SerializeField] Animator animator;
 
         public static int aliveCount;
         bool flipFlop; 
@@ -92,6 +93,12 @@ namespace AI {
 
             ConnectToParent();
 
+            float speed = rb.velocity.magnitude / maxSpeed;
+            speed = Mathf.Min(speed, 1f);
+            if (animator)
+                animator.SetFloat("SpeedNormalized", speed);
+
+
         }
         void OnDrawGizmos()
         {
@@ -136,8 +143,14 @@ namespace AI {
 
         public void Clone()
         {
-            AliveBeing baby = GameObject.Instantiate<AliveBeing>(this, transform.position, transform.rotation);
+            AliveBeing baby = ObjectPool.GetFromPool<AliveBeing>(this.gameObject);
+            baby.transform.position = transform.position;
+            baby.transform.rotation = transform.rotation;
+            baby.Awake();
             baby.Mutate(dna, fertilityRate);
+
+            Debug.Log("A new baby is alive: " + baby.name);
+
             baby.parent = this;
             baby.randomizeDNA = false;
         }
@@ -278,14 +291,16 @@ namespace AI {
         }
         void Die()
         {
-            Debug.Log(name + " died. R.I.P.");
-
+            Debug.Log(name + " died.");
             if (FoodTemplate != null)
-                GameObject.Instantiate(FoodTemplate);
+            {
+                Collectable food = ObjectPool.GetFromPool<Collectable>(FoodTemplate);
+                food.transform.position = transform.position;
+            }
 
             aliveCount--;
 
-            GameObject.Destroy(this.gameObject);
+            ObjectPool.AddToPool<AliveBeing>(this);
         }
         void ClampHealth()
         {

@@ -45,8 +45,7 @@ namespace AI
                 Debug.LogError("No template assigned to " + FullName());
             else
             {
-                Debug.Log(FullName() + ": spawning a " + template.name);
-                GameObject obj = GameObject.Instantiate(template);
+                GameObject obj = ObjectPool.GetFromPool<Collectable>(template).gameObject;
                 obj.transform.position = RandomPosition();
             }
 

@@ -45,8 +45,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   template: {fileID: 582788334514373963, guid: 0648de80b99711445bc1c651fccfb046, type: 3}
   intervalMin: 1
-  intervalMax: 0
-  startSpawning: 0
+  intervalMax: 3
+  startSpawning: 1
   name: PoisonSpawner
   MaxDistanceFromOrigin: {x: 30, y: 30, z: 30}
   MinDistanceFromOrigin: {x: 0, y: 0, z: 0}
