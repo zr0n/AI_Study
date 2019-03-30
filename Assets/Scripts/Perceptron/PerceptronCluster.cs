@@ -23,12 +23,12 @@ namespace AI
         // Start is called before the first frame update
         void Start()
         {
-
-
             SpawnPoints();
             DrawCorrectLine();
             Application.targetFrameRate = applicationFrameRate;
         }
+
+       
 
         // Update is called once per frame
         void Update()
