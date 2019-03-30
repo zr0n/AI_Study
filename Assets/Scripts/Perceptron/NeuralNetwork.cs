@@ -6,7 +6,7 @@ using UnityEngine;
 namespace AI
 {
 
-    public class PerceptronCluster : MonoBehaviour
+    public class NeuralNetwork : MonoBehaviour
     {
         public int perceptronsNum = 100;
         public GameObject pointTemplate;

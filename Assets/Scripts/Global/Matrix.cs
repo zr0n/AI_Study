@@ -111,12 +111,8 @@ namespace AI
             {
                 for (int j = 0; j < m2.LengthJ; j++)
                 {
-                    float sum = 0;
-                    for (int k = 0; k < m1.LengthJ; k++)
-                    {
-                        sum += m1[i][k] + m2[k][j];
-                    }
-                    result[i][j] = sum;
+                    
+                    result[i][j] = m1[i][j] + m2[i][j];
                 }
 
             }
