@@ -136,6 +136,16 @@ namespace AI
             return output;
         }
 
+        public Matrix Transpose()
+        {
+            Matrix result = new Matrix(LengthJ, Length);
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result.LengthJ; j++)
+                    result[i][j] = this[j][i];
+
+            return result;
+        }
+
     }
 
 }

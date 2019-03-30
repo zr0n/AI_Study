@@ -23,9 +23,18 @@ namespace AI
         // Start is called before the first frame update
         void Start()
         {
+            Matrix a = new Matrix(2, 3, 5, -5);
+            Matrix b = a.Transpose();
+
+            Debug.Log("A: " + a);
+            Debug.Log("Transpose: " + b);
+
+            /*
+
             SpawnPoints();
             DrawCorrectLine();
             Application.targetFrameRate = applicationFrameRate;
+            */
         }
 
        
