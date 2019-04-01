@@ -263,6 +263,73 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1006669928
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1006669930}
+  - component: {fileID: 1006669929}
+  m_Layer: 0
+  m_Name: NeuralNetwork
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1006669929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1006669928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 722c2a80bf9b36e40b0df16cd4d1da2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputsList:
+  - 1
+  - 0
+  inputs:
+    name: 
+  randomizeInputsAtStart: 0
+  feedOnTick: 0
+  debugOutput: 0
+  biasH:
+    name: 
+  biasO:
+    name: 
+  learningRate: 0.05
+  outputNodes: 1
+  hiddenLayerNodes: 2
+  desiredRandomizeInputsLength: 2
+  desiredFrameRate: 2
+  trainingLoops: 50000
+  weightsIH:
+    name: 
+  weightsHO:
+    name: 
+  output:
+    name: 
+--- !u!4 &1006669930
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1006669928}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 48.399994, y: 18.869978, z: -31.082989}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1485923025
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -439,6 +506,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Perceptrons
+      objectReference: {fileID: 0}
+    - target: {fileID: 2522617840693825719, guid: e520e9d8441158c4d9dd35baa61c64b3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5319888423921965109, guid: e520e9d8441158c4d9dd35baa61c64b3,
         type: 3}
